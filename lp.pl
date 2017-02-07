@@ -28,10 +28,23 @@ head-value-general(Element, 0) :- \+ number(Element).
 head-value-general(Element, Element) :- number(Element).
 head-value-general(Element, Total):-
 	is_list(Element),
-	sum-up-numbers-simple(Element, Total).
+	sum-up-numbers-general(Element, Total).
 
 sum-up-numbers-general([], 0).
 sum-up-numbers-general([Head | Tail], Total) :-
 	sum-up-numbers-general(Tail, Sub_total),
 	head-value-general(Head, Head_total),
 	Total is Head_total + Sub_total.
+
+/* [Part 3]
+	Parameter: <list1> <list2> <number>
+	Returns: True if <number> is the minimum of the numbers in <list1> that are 
+	larger than the smallest number in <list2>.
+*/
+
+min-from-list([], Min, Min).
+min-from-list([Head | Tail], Current_min, Final_min) :-
+	min-from-list(Tail, New_min, Final_min),
+	New_min is min(Head, Current_min).
+
+
