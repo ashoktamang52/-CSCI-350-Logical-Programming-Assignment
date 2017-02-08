@@ -80,6 +80,21 @@ min-above-min(L1, L2, N):-
     greater-than(Filtered1, Min, Greater_than),
     min-from-list(Greater_than, N).
 
+/* [Part 4]
+	Parameter: <list1> <list2> <new_list>
+	Returns: True if <new_list> is a simple list of
+    the items that are common in <list1> and <list2>.
+    The elements in the result list are unique.
+*/
 
+common-getter([], L2, []) :-
+    is_list(L2).
 
+common-getter([H|T], L2, [H|X]) :-
+    member(H, L2),
+    unique-getter(T, L2, X).
+
+common-getter([H|T], L2, X) :-
+    \+ member(H, L2),
+    unique-getter(T, L2, X).
 
