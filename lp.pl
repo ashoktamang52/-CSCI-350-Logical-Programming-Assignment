@@ -104,8 +104,8 @@ make-simple-list([], []).
 
 make-simple-list([H|T], Z) :-
     is_list(H),
-    make-simple-list(T, X),
-    make-simple-list(H, Y),
+    make-simple-list(H, X),
+    make-simple-list(T, Y),
     append(X, Y, Z).
 
 make-simple-list([H|T], [H|Z]) :-
@@ -128,5 +128,5 @@ make-unique-list([H|T], Z) :-
 common-unique-elements(L1, L2, N) :-
     make-simple-list(L1, Simple1),
     make-simple-list(L2, Simple2),
-    unique-getter(Simple1, Simple2, Common),
+    common-getter(Simple1, Simple2, Common),
     make-unique-list(Common, N).
