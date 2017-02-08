@@ -42,7 +42,10 @@ sum-up-numbers-general([Head | Tail], Total) :-
 	larger than the smallest number in <list2>.
 */
 
-min-from-list([Element], Element).
+min-from-list([Element], Element) :- number(Element).
+min-from-list([Head | Tail], Min) :- 
+	\+ number(Head),
+	min-from-list(Tail, Min).
 min-from-list([Head | Tail], Final_min) :-
 	min-from-list(Tail, Tail_min),
 	Final_min is min(Head, Tail_min).
