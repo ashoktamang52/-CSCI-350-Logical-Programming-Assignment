@@ -111,3 +111,22 @@ make-simple-list([H|T], Z) :-
 make-simple-list([H|T], [H|Z]) :-
     make-simple-list(T, Z).
 
+
+% Helper function returns a list with no duplicates.
+make-unique-list([], []).
+
+make-unique-list([H|T], [H|Z]) :-
+    \+ member(H, T),
+    make-unique-list(T, Z).
+
+make-unique-list([H|T], Z) :-
+    member(H, T),
+    make-unique-list(T, Z).
+
+% Main objective.
+
+common-unique-elements(L1, L2, N) :-
+    make-simple-list(L1, Simple1),
+    make-simple-list(L2, Simple2),
+    unique-getter(Simple1, Simple2, Common),
+    make-unique-list(Common, N).
