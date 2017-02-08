@@ -63,7 +63,16 @@ filter-num([Head | Tail], Final) :-
 	filter-num(Tail, Final),
 	\+ number(Head).
 
+greater-than([], Min, []) :-
+    number(Min).
+greater-than([H|T], Min, [H|X]) :-
+    H > Min,
+    greater-than(T, X).
 
+greater-than([H|T], Min, X) :-
+    H =< Min,
+    greater-than(T, X).
+    
 min-above-min([Element], [], Element).
 min-above-min([_|_], [], Min) :- 
 	min-from-list([_|_], Min).
