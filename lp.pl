@@ -52,6 +52,10 @@ min-from-list([Head | Tail], Min) :-
 	min-from-list(Tail, Min).
 min-from-list([Head | Tail], Final_min) :-
 	min-from-list(Tail, Tail_min),
-	Final_min is min(Head, Tail_min).
+	Final_min is min(Head, Tail_min);
 
+
+min-above-min([Element], [], Element).
+min-above-min([_|_], [], Min) :- 
+	min-from-list([_|_], Min).
 
