@@ -87,6 +87,7 @@ min-above-min(L1, L2, N):-
     The elements in the result list are unique.
 */
 
+% Helper function that finds common elements from both lists.
 common-getter([], L2, []) :-
     is_list(L2).
 
@@ -97,4 +98,16 @@ common-getter([H|T], L2, [H|X]) :-
 common-getter([H|T], L2, X) :-
     \+ member(H, L2),
     unique-getter(T, L2, X).
+
+% Helper function returns a simple list given a list of nested lists.
+make-simple-list([], []).
+
+make-simple-list([H|T], Z) :-
+    is_list(H),
+    make-simple-list(T, X),
+    make-simple-list(H, Y),
+    append(X, Y, Z).
+
+make-simple-list([H|T], [H|Z]) :-
+    make-simple-list(T, Z).
 
