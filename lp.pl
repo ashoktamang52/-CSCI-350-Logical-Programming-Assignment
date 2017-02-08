@@ -4,14 +4,21 @@
    	        the given list.
 */
 
+% Helper goal that determines whether an element is a number or not.
+
 head-value-simple(Element, 0):-
     \+ number(Element);
     is_list(Element).
+
 head-value-simple(Element, Element) :- number(Element).
 
+% Main goal.
+
 sum-up-numbers-simple([],0).
+
 sum-up-numbers-simple([Head], 0) :-
 	\+ number(Head).
+
 sum-up-numbers-simple([Head | Tail], Total) :-
 	sum-up-numbers-simple(Tail, Sub_total),
 	head-value-simple(Head, Head_total),
@@ -24,16 +31,18 @@ sum-up-numbers-simple([Head | Tail], Total) :-
 			nested lists) in <list>.
 */
 
+% Helper goal that determines whether an element is a number or not.
 head-value-general(Element, 0) :- 
 	\+ number(Element).
 head-value-general(Element, Element) :- 
 	number(Element).
 
+% Main goal.
 
 sum-up-numbers-general([], 0).
 
 sum-up-numbers-general([Head | Tail], Total) :-
-	\+ list(Head),
+	\+ is_list(Head),
 	head-value-general(Head, Head_value),
 	sum-up-numbers-general(Tail, Tail_total),
 	Total is Head_value + Tail_total.
@@ -51,10 +60,8 @@ sum-up-numbers-general([Head | Tail], Total) :-
 	larger than the smallest number in <list2>.
 */
 
-/*
-[ToDo] When the list has last value as non-numeric value, then the function
-misbehaves.
-*/ 
+% Helper goal that returns the minimum value from only-numeric simple list.
+
 min-from-list([Element], Element) :- number(Element).
 min-from-list([Head | Tail], Min) :- 
 	\+ number(Head),
@@ -63,6 +70,7 @@ min-from-list([Head | Tail], Final_min) :-
 	min-from-list(Tail, Tail_min),
 	Final_min is min(Head, Tail_min).
 
+% Helper goal that returns a new only-numeric list from a given list.
 
 filter-num([], []).
 filter-num([Head | Tail], [Head|Y]) :- 
@@ -71,6 +79,9 @@ filter-num([Head | Tail], [Head|Y]) :-
 filter-num([Head | Tail], Final) :-
 	filter-num(Tail, Final),
 	\+ number(Head).
+
+% Helper goal that returns a new list of numbers in a list, that are greater
+% than the given minium value.
 
 greater-than([], Min, []) :-
     number(Min).
@@ -82,12 +93,15 @@ greater-than([H|T], Min, X) :-
     H =< Min,
     greater-than(T, Min, X).
 
+% Main goal.
+
 min-above-min(L1, L2, N):-
     filter-num(L2, Filtered),
     min-from-list(Filtered, Min),
     filter-num(L1, Filtered1),
     greater-than(Filtered1, Min, Greater_than),
     min-from-list(Greater_than, N).
+
 
 /* [Part 4]
 	Parameter: <list1> <list2> <new_list>
@@ -97,6 +111,7 @@ min-above-min(L1, L2, N):-
 */
 
 % Helper function that finds common elements from both lists.
+
 common-getter([], L2, []) :-
     is_list(L2).
 
@@ -109,6 +124,7 @@ common-getter([H|T], L2, X) :-
     unique-getter(T, L2, X).
 
 % Helper function returns a simple list given a list of nested lists.
+
 make-simple-list([], []).
 
 make-simple-list([H|T], Z) :-
@@ -122,6 +138,7 @@ make-simple-list([H|T], [H|Z]) :-
 
 
 % Helper function returns a list with no duplicates.
+
 make-unique-list([], []).
 
 make-unique-list([H|T], [H|Z]) :-
@@ -132,7 +149,7 @@ make-unique-list([H|T], Z) :-
     member(H, T),
     make-unique-list(T, Z).
 
-% Main objective.
+% Main goal.
 
 common-unique-elements(L1, L2, N) :-
     make-simple-list(L1, Simple1),
