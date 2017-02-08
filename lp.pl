@@ -24,17 +24,26 @@ sum-up-numbers-simple([Head | Tail], Total) :-
 			nested lists) in <list>.
 */
 
-head-value-general(Element, 0) :- \+ number(Element).
-head-value-general(Element, Element) :- number(Element).
-head-value-general(Element, Total):-
-	is_list(Element),
-	sum-up-numbers-general(Element, Total).
+head-value-general(Element, 0) :- 
+	\+ number(Element).
+head-value-general(Element, Element) :- 
+	number(Element).
+
 
 sum-up-numbers-general([], 0).
+
 sum-up-numbers-general([Head | Tail], Total) :-
-	sum-up-numbers-general(Tail, Sub_total),
-	head-value-general(Head, Head_total),
-	Total is Head_total + Sub_total.
+	\+ list(Head),
+	head-value-general(Head, Head_value),
+	sum-up-numbers-general(Tail, Tail_total),
+	Total is Head_value + Tail_total.
+
+sum-up-numbers-general([Head | Tail], Total) :-
+	sum-up-numbers-general(Tail, Tail_total),
+    is_list(Head),
+	sum-up-numbers-general(Head, Head_total),
+	Total is Head_total + Tail_total.
+
 
 /* [Part 3]
 	Parameter: <list1> <list2> <number>
