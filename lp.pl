@@ -42,6 +42,10 @@ sum-up-numbers-general([Head | Tail], Total) :-
 	larger than the smallest number in <list2>.
 */
 
+/*
+[ToDo] When the list has last value as non-numeric value, then the function
+misbehaves.
+*/ 
 min-from-list([Element], Element) :- number(Element).
 min-from-list([Head | Tail], Min) :- 
 	\+ number(Head),
